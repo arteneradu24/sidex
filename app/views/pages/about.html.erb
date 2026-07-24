@@ -1,0 +1,31 @@
+<% content_for :title, current_site.about_label %>
+
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="section-title"><%= current_site.about_label %></h1>
+    <p class="section-subtitle"><%= current_site.company_tagline %></p>
+  </div>
+</section>
+
+<section class="py-16">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="card p-8 md:p-12">
+      <div class="prose-themed">
+        <%= simple_format(current_site.about_content) %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <% [["15+", "Jahre Erfahrung"], ["200+", "Projekte"], ["50+", "Mitarbeiter"], ["98%", "Kundenzufriedenheit"]].each do |value, label| %>
+        <div class="card p-6">
+          <div class="text-3xl font-bold text-primary mb-2"><%= value %></div>
+          <div class="text-sm text-gray-600"><%= label %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

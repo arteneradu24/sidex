@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: sidex
+      POSTGRES_PASSWORD: sidex_password
+      POSTGRES_DB: sidex_development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sidex -d sidex_development"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    ports:
+      - "3001:3000"
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgres://sidex:sidex_password@db:5432/sidex_development
+      RAILS_MASTER_KEY: 6ffcba32d02bd4905d095bbd095b68ab
+      SECRET_KEY_BASE: development_secret_key_base_change_in_production
+    volumes:
+      - .:/rails
+      - bundle_cache:/usr/local/bundle
+      - storage_data:/rails/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:
+  bundle_cache:
+  storage_data:

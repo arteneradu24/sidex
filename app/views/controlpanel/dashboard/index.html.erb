@@ -1,0 +1,60 @@
+<% content_for :page_title, "Dashboard" %>
+<% content_for :page_subtitle, "Übersicht über Ihre Website" %>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+  <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="text-sm font-medium text-gray-500">Blog-Beiträge</div>
+    <div class="text-3xl font-bold text-gray-900 mt-2"><%= @posts_count %></div>
+    <div class="text-sm text-gray-500 mt-1"><%= @published_posts_count %> veröffentlicht</div>
+  </div>
+  <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="text-sm font-medium text-gray-500">Neue Nachrichten</div>
+    <div class="text-3xl font-bold text-gray-900 mt-2"><%= @new_messages_count %></div>
+    <%= link_to "Alle anzeigen", controlpanel_contact_messages_path, class: "text-sm text-blue-600 hover:underline mt-1 inline-block" %>
+  </div>
+  <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="text-sm font-medium text-gray-500">Unternehmen</div>
+    <div class="text-xl font-bold text-gray-900 mt-2"><%= current_site.company_name %></div>
+    <%= link_to "Einstellungen", edit_controlpanel_general_settings_path, class: "text-sm text-blue-600 hover:underline mt-1 inline-block" %>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <h3 class="font-semibold text-gray-900 mb-4">Letzte Nachrichten</h3>
+    <% if @recent_messages.any? %>
+      <ul class="divide-y divide-gray-100">
+        <% @recent_messages.each do |msg| %>
+          <li class="py-3 flex justify-between items-center">
+            <div>
+              <%= link_to msg.name, controlpanel_contact_message_path(msg), class: "font-medium text-gray-900 hover:text-blue-600" %>
+              <p class="text-sm text-gray-500 truncate max-w-xs"><%= msg.subject.presence || msg.message.truncate(50) %></p>
+            </div>
+            <%= status_badge(msg.status) %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-500 text-sm">Keine Nachrichten vorhanden.</p>
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <h3 class="font-semibold text-gray-900 mb-4">Letzte Beiträge</h3>
+    <% if @recent_posts.any? %>
+      <ul class="divide-y divide-gray-100">
+        <% @recent_posts.each do |post| %>
+          <li class="py-3 flex justify-between items-center">
+            <%= link_to post.title, edit_controlpanel_post_path(post), class: "font-medium text-gray-900 hover:text-blue-600" %>
+            <%= publish_badge(post.published) %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-500 text-sm">Keine Beiträge vorhanden.</p>
+    <% end %>
+    <div class="mt-4">
+      <%= link_to "Neuer Beitrag", new_controlpanel_post_path, class: "text-sm text-blue-600 hover:underline" %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<nav class="navbar-themed sticky top-0 z-50 border-b border-gray-100 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <%= link_to root_path, class: "flex items-center gap-3" do %>
+        <% if logo_for(current_site) %>
+          <%= image_tag logo_for(current_site), class: "h-10 w-auto", alt: current_site.company_name %>
+        <% else %>
+          <span class="text-xl font-bold text-primary"><%= current_site.company_name %></span>
+        <% end %>
+      <% end %>
+
+      <div class="hidden md:flex items-center gap-8">
+        <% nav_items.each do |item| %>
+          <%= link_to item[:label], item[:path],
+              class: "text-sm font-medium transition-colors #{active_nav?(item[:path]) ? 'text-primary' : 'text-gray-600 hover:text-primary'}" %>
+        <% end %>
+      </div>
+
+      <div class="md:hidden" data-controller="mobile-menu">
+        <button type="button" data-action="click->mobile-menu#toggle" class="p-2 rounded-lg text-gray-600 hover:bg-gray-100">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <div data-mobile-menu-target="menu" class="hidden absolute top-16 left-0 right-0 navbar-themed border-b border-gray-100 shadow-lg">
+          <div class="px-4 py-4 space-y-2">
+            <% nav_items.each do |item| %>
+              <%= link_to item[:label], item[:path], class: "block px-4 py-2 rounded-lg text-sm font-medium #{active_nav?(item[:path]) ? 'bg-gray-100 text-primary' : 'text-gray-600 hover:bg-gray-50'}" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

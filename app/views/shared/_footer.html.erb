@@ -1,0 +1,48 @@
+<footer class="footer-themed text-white mt-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-lg font-bold mb-4"><%= current_site.company_name %></h3>
+        <p class="text-gray-300 text-sm"><%= current_site.company_tagline %></p>
+      </div>
+
+      <div>
+        <h4 class="text-sm font-semibold uppercase tracking-wider mb-4 text-gray-300">Navigation</h4>
+        <ul class="space-y-2">
+          <% nav_items.each do |item| %>
+            <li><%= link_to item[:label], item[:path], class: "text-gray-300 hover:text-white text-sm transition-colors" %></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-sm font-semibold uppercase tracking-wider mb-4 text-gray-300">Kontakt</h4>
+        <ul class="space-y-2 text-sm text-gray-300">
+          <% if current_site.email.present? %>
+            <li><%= mail_to current_site.email, class: "hover:text-white transition-colors" %></li>
+          <% end %>
+          <% if current_site.phone.present? %>
+            <li><%= current_site.phone %></li>
+          <% end %>
+          <% if formatted_address(current_site).present? %>
+            <li><%= formatted_address(current_site) %></li>
+          <% end %>
+        </ul>
+
+        <div class="flex gap-4 mt-4">
+          <% { facebook: current_site.facebook_url, instagram: current_site.instagram_url, linkedin: current_site.linkedin_url, youtube: current_site.youtube_url }.each do |name, url| %>
+            <% if url.present? %>
+              <%= link_to url, target: "_blank", rel: "noopener", class: "text-gray-400 hover:text-white transition-colors capitalize text-sm" do %>
+                <%= name.to_s.capitalize %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+      &copy; <%= Date.current.year %> <%= current_site.company_name %>. Alle Rechte vorbehalten.
+    </div>
+  </div>
+</footer>

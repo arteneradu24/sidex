@@ -1,0 +1,17 @@
+<aside class="w-64 bg-gray-900 text-white flex-shrink-0 hidden lg:block">
+  <div class="p-6 border-b border-gray-800">
+    <h1 class="text-lg font-bold">Control Panel</h1>
+    <p class="text-xs text-gray-400 mt-1"><%= current_site.company_name %></p>
+  </div>
+  <nav class="p-4 space-y-1">
+    <% controlpanel_nav_items.each do |item| %>
+      <%= link_to item[:path], class: "flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors #{cp_nav_active?(item[:path]) ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}" do %>
+        <%= item[:label] %>
+      <% end %>
+    <% end %>
+  </nav>
+  <div class="p-4 border-t border-gray-800 mt-auto">
+    <%= link_to "Website anzeigen", root_path, target: "_blank", class: "block text-sm text-gray-400 hover:text-white mb-3" %>
+    <%= button_to "Abmelden", destroy_user_session_path, method: :delete, class: "w-full text-left text-sm text-gray-400 hover:text-white cursor-pointer" %>
+  </div>
+</aside>

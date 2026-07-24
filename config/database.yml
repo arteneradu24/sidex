@@ -1,0 +1,30 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV.fetch("DATABASE_URL", "postgres://sidex:sidex_password@localhost:5432/sidex_development") %>
+
+development:
+  <<: *default
+  database: sidex_development
+
+test:
+  <<: *default
+  database: sidex_test
+
+production:
+  primary: &primary_production
+    <<: *default
+    database: sidex_production
+  cache:
+    <<: *primary_production
+    database: sidex_production_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary_production
+    database: sidex_production_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary_production
+    database: sidex_production_cable
+    migrations_paths: db/cable_migrate

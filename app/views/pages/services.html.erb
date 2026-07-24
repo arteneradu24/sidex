@@ -1,0 +1,39 @@
+<% content_for :title, current_site.services_label %>
+
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="section-title"><%= current_site.services_label %></h1>
+    <p class="section-subtitle"><%= current_site.company_tagline %></p>
+  </div>
+</section>
+
+<section class="py-16">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="prose-themed mb-12">
+      <%= simple_format(current_site.services_content) %>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <% [
+        { title: "Unternehmensberatung", desc: "Strategische Planung, Prozessoptimierung und Change Management für nachhaltigen Erfolg.", price: "Ab 150€/h" },
+        { title: "Softwareentwicklung", desc: "Individuelle Web- und Mobile-Anwendungen mit modernen Frameworks und Best Practices.", price: "Projektbasiert" },
+        { title: "Cloud & DevOps", desc: "Migration, Automatisierung und skalierbare Infrastruktur in der Cloud.", price: "Ab 120€/h" },
+        { title: "IT-Support & Wartung", desc: "Proaktive Wartung, Monitoring und schneller Support für Ihre Systeme.", price: "Monatliche Pakete" }
+      ].each do |service| %>
+        <div class="card p-8 hover:shadow-lg transition-shadow">
+          <h3 class="text-xl font-bold mb-3"><%= service[:title] %></h3>
+          <p class="text-gray-600 mb-4"><%= service[:desc] %></p>
+          <span class="inline-block text-sm font-semibold text-primary"><%= service[:price] %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="text-center mt-12">
+      <%= link_to "Anfrage stellen", contact_path, class: "btn-primary" %>
+    </div>
+  </div>
+</section>

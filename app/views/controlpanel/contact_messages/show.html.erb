@@ -1,0 +1,38 @@
+<% content_for :page_title, "Message from #{@message.name}" %>
+
+<div class="max-w-3xl">
+  <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+    <div class="flex justify-between items-start mb-6">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-900"><%= @message.name %></h3>
+        <p class="text-sm text-gray-500"><%= @message.email %></p>
+        <% if @message.phone.present? %>
+          <p class="text-sm text-gray-500"><%= @message.phone %></p>
+        <% end %>
+      </div>
+      <%= status_badge(@message.status) %>
+    </div>
+
+    <% if @message.subject.present? %>
+      <div class="mb-4">
+        <span class="text-sm font-medium text-gray-500">Subject:</span>
+        <span class="text-gray-900"><%= @message.subject %></span>
+      </div>
+    <% end %>
+
+    <div class="prose max-w-none">
+      <%= simple_format(@message.message) %>
+    </div>
+
+    <div class="text-xs text-gray-400 mt-6">
+      Received <%= l(@message.created_at, format: :long) %>
+    </div>
+  </div>
+
+  <div class="flex gap-3">
+    <%= button_to "Mark as Read", controlpanel_contact_message_path(@message), method: :patch, params: { status: :read }, class: "btn-secondary btn-sm cursor-pointer" %>
+    <%= button_to "Archive", controlpanel_contact_message_path(@message), method: :patch, params: { status: :archived }, class: "btn-secondary btn-sm cursor-pointer" %>
+    <%= button_to "Delete", controlpanel_contact_message_path(@message), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "text-sm text-red-600 hover:underline cursor-pointer" %>
+    <%= link_to "Back", controlpanel_contact_messages_path, class: "btn-secondary btn-sm" %>
+  </div>
+</div>

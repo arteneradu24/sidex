@@ -1,0 +1,91 @@
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0">
+    <% hero = hero_image_for(current_site) %>
+    <% if hero.is_a?(String) %>
+      <img src="<%= hero %>" alt="" class="w-full h-full object-cover">
+    <% else %>
+      <%= image_tag hero, class: "w-full h-full object-cover", alt: "" %>
+    <% end %>
+    <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+    <div class="max-w-2xl">
+      <p class="text-primary font-semibold text-sm uppercase tracking-wider mb-4" style="color: var(--button-text-color); opacity: 0.9;">
+        <%= current_site.company_tagline %>
+      </p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+        <%= current_site.hero_title %>
+      </h1>
+      <p class="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
+        <%= current_site.hero_subtitle %>
+      </p>
+      <% if current_site.hero_button_text.present? %>
+        <%= link_to current_site.hero_button_text, current_site.hero_button_url, class: "btn-primary inline-flex" %>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="section-title">Unsere Leistungen</h2>
+      <p class="section-subtitle mx-auto">Professionelle Lösungen für Ihr Unternehmen – maßgeschneidert und zuverlässig.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <% [
+        { title: "Beratung", desc: "Strategische Beratung für nachhaltiges Wachstum und digitale Transformation.", icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" },
+        { title: "Entwicklung", desc: "Moderne Softwarelösungen mit bewährten Technologien und agilen Methoden.", icon: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" },
+        { title: "Support", desc: "Zuverlässiger Support und Wartung für langfristigen Erfolg Ihrer Projekte.", icon: "M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z" }
+      ].each do |service| %>
+        <div class="card p-8 hover:shadow-lg transition-shadow">
+          <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= service[:icon] %>"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3"><%= service[:title] %></h3>
+          <p class="text-gray-600"><%= service[:desc] %></p>
+        </div>
+      <% end %>
+    </div>
+
+    <% if current_site.show_services? %>
+      <div class="text-center mt-12">
+        <%= link_to "Alle Leistungen", services_path, class: "btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<% if current_site.show_blog? && @recent_posts&.any? %>
+  <section class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-end mb-12">
+        <div>
+          <h2 class="section-title"><%= current_site.blog_label %></h2>
+          <p class="section-subtitle">Aktuelle Neuigkeiten und Einblicke aus unserem Unternehmen.</p>
+        </div>
+        <%= link_to "Alle Beiträge", posts_path, class: "btn-secondary btn-sm hidden md:inline-flex" %>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <% @recent_posts.each do |post| %>
+          <%= render "posts/card", post: post %>
+        <% end %>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<section class="py-20 bg-primary text-white" style="background-color: var(--primary-color);">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">Bereit für den nächsten Schritt?</h2>
+    <p class="text-lg opacity-90 mb-8">Kontaktieren Sie uns noch heute für ein unverbindliches Beratungsgespräch.</p>
+    <% if current_site.show_contact? %>
+      <%= link_to current_site.contact_label, contact_path, class: "btn bg-white hover:bg-gray-100", style: "color: var(--primary-color);" %>
+    <% end %>
+  </div>
+</section>

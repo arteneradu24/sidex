@@ -1,0 +1,44 @@
+<% content_for :page_title, "SEO Settings" %>
+<% content_for :page_subtitle, "Search engine and social sharing optimization" %>
+
+<div class="max-w-3xl">
+  <%= render "shared/form_errors", object: @site_setting %>
+  <%= form_with model: @site_setting, url: controlpanel_seo_settings_path, method: :patch, class: "space-y-6" do |f| %>
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Meta Tags</h3>
+      <div>
+        <%= f.label :site_title, class: "cp-label" %>
+        <%= f.text_field :site_title, class: "cp-input" %>
+      </div>
+      <div>
+        <%= f.label :meta_description, class: "cp-label" %>
+        <%= f.text_area :meta_description, rows: 3, class: "cp-input" %>
+      </div>
+      <div>
+        <%= f.label :meta_keywords, class: "cp-label" %>
+        <%= f.text_area :meta_keywords, rows: 2, class: "cp-input" %>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Open Graph</h3>
+      <div>
+        <%= f.label :og_title, class: "cp-label" %>
+        <%= f.text_field :og_title, class: "cp-input" %>
+      </div>
+      <div>
+        <%= f.label :og_description, class: "cp-label" %>
+        <%= f.text_area :og_description, rows: 3, class: "cp-input" %>
+      </div>
+      <div>
+        <%= f.label :og_image, class: "cp-label" %>
+        <%= f.file_field :og_image, class: "cp-input" %>
+        <% if @site_setting.og_image.attached? %>
+          <div class="mt-2"><%= image_tag @site_setting.og_image, class: "h-24 rounded-lg object-cover" %></div>
+        <% end %>
+      </div>
+    </div>
+
+    <%= f.submit "Save SEO Settings", class: "btn-primary cursor-pointer" %>
+  <% end %>
+</div>

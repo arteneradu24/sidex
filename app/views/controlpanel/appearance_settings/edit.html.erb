@@ -1,0 +1,40 @@
+<% content_for :page_title, "Appearance" %>
+<% content_for :page_subtitle, "Customize colors and theme" %>
+
+<div class="max-w-3xl">
+  <%= render "shared/form_errors", object: @site_setting %>
+  <%= form_with model: @site_setting, url: controlpanel_appearance_settings_path, method: :patch, class: "space-y-6" do |f| %>
+    <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <h3 class="font-semibold text-gray-900 mb-4">Theme Colors</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% {
+          primary_color: "Primary", secondary_color: "Secondary", background_color: "Background",
+          text_color: "Text", button_color: "Button", button_text_color: "Button Text",
+          navbar_background_color: "Navbar", footer_background_color: "Footer"
+        }.each do |field, label| %>
+          <div>
+            <%= f.label field, label, class: "cp-label" %>
+            <div class="flex gap-2 items-center">
+              <%= f.color_field field, class: "h-10 w-14 rounded cursor-pointer" %>
+              <%= f.text_field field, class: "cp-input flex-1 font-mono text-sm" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <h3 class="font-semibold text-gray-900 mb-4">Preview</h3>
+      <div class="rounded-xl overflow-hidden border border-gray-200" style="<%= theme_css_variables(@site_setting).gsub("\n  ", "; ") %>">
+        <div class="navbar-themed p-4 border-b">Navbar Preview</div>
+        <div class="p-6" style="background-color: var(--background-color); color: var(--text-color);">
+          <p class="mb-4">Sample text with <span style="color: var(--primary-color);">primary color</span>.</p>
+          <button type="button" class="btn-primary btn-sm">Button Preview</button>
+        </div>
+        <div class="footer-themed p-4 text-white text-sm">Footer Preview</div>
+      </div>
+    </div>
+
+    <%= f.submit "Save Colors", class: "btn-primary cursor-pointer" %>
+  <% end %>
+</div>

@@ -1,0 +1,44 @@
+<% content_for :page_title, "Blog Posts" %>
+<% content_for :page_subtitle, "Manage blog content" %>
+
+<div class="flex justify-between items-center mb-6">
+  <%= link_to "New Post", new_controlpanel_post_path, class: "btn-primary btn-sm" %>
+</div>
+
+<div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Published</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <% @posts.each do |post| %>
+        <tr>
+          <td class="px-6 py-4">
+            <%= link_to post.title, edit_controlpanel_post_path(post), class: "font-medium text-gray-900 hover:text-blue-600" %>
+            <div class="text-xs text-gray-500">/<%= post.slug %></div>
+          </td>
+          <td class="px-6 py-4"><%= publish_badge(post.published) %></td>
+          <td class="px-6 py-4 text-sm text-gray-500">
+            <%= post.published_at ? l(post.published_at.to_date) : "—" %>
+          </td>
+          <td class="px-6 py-4 text-right space-x-2">
+            <% if post.published? %>
+              <%= button_to "Unpublish", unpublish_controlpanel_post_path(post), method: :patch, class: "text-xs text-yellow-600 hover:underline cursor-pointer inline" %>
+            <% else %>
+              <%= button_to "Publish", publish_controlpanel_post_path(post), method: :patch, class: "text-xs text-green-600 hover:underline cursor-pointer inline" %>
+            <% end %>
+            <%= button_to "Delete", controlpanel_post_path(post), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "text-xs text-red-600 hover:underline cursor-pointer inline" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @posts.empty? %>
+    <div class="p-8 text-center text-gray-500">No posts yet.</div>
+  <% end %>
+</div>

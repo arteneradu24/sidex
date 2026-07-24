@@ -1,0 +1,79 @@
+<% content_for :title, current_site.contact_label %>
+<% @contact_message ||= ContactMessage.new %>
+
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="section-title"><%= current_site.contact_label %></h1>
+    <p class="section-subtitle">Wir freuen uns auf Ihre Nachricht. Füllen Sie das Formular aus oder kontaktieren Sie uns direkt.</p>
+  </div>
+</section>
+
+<section class="py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div class="card p-8">
+        <h2 class="text-xl font-bold mb-6">Kontaktinformationen</h2>
+        <dl class="space-y-4">
+          <% if current_site.email.present? %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">E-Mail</dt>
+              <dd class="mt-1"><%= mail_to current_site.email, class: "text-primary hover:underline" %></dd>
+            </div>
+          <% end %>
+          <% if current_site.phone.present? %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Telefon</dt>
+              <dd class="mt-1"><%= current_site.phone %></dd>
+            </div>
+          <% end %>
+          <% if formatted_address(current_site).present? %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Adresse</dt>
+              <dd class="mt-1"><%= formatted_address(current_site) %></dd>
+            </div>
+          <% end %>
+          <% if current_site.website.present? %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Website</dt>
+              <dd class="mt-1"><%= link_to current_site.website, current_site.website, target: "_blank", rel: "noopener", class: "text-primary hover:underline" %></dd>
+            </div>
+          <% end %>
+        </dl>
+
+        <% if current_site.google_maps_url.present? %>
+          <div class="mt-8">
+            <%= link_to "Auf Google Maps anzeigen", current_site.google_maps_url, target: "_blank", rel: "noopener", class: "btn-secondary btn-sm" %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="card p-8">
+        <h2 class="text-xl font-bold mb-6">Nachricht senden</h2>
+        <%= render "shared/form_errors", object: @contact_message %>
+        <%= form_with model: @contact_message, url: contact_messages_path, class: "space-y-4" do |f| %>
+          <div>
+            <%= f.label :name, "Name", class: "form-label" %>
+            <%= f.text_field :name, class: "form-input", required: true %>
+          </div>
+          <div>
+            <%= f.label :email, "E-Mail", class: "form-label" %>
+            <%= f.email_field :email, class: "form-input", required: true %>
+          </div>
+          <div>
+            <%= f.label :phone, "Telefon (optional)", class: "form-label" %>
+            <%= f.telephone_field :phone, class: "form-input" %>
+          </div>
+          <div>
+            <%= f.label :subject, "Betreff", class: "form-label" %>
+            <%= f.text_field :subject, class: "form-input" %>
+          </div>
+          <div>
+            <%= f.label :message, "Nachricht", class: "form-label" %>
+            <%= f.text_area :message, rows: 5, class: "form-input", required: true %>
+          </div>
+          <%= f.submit "Absenden", class: "btn-primary w-full cursor-pointer" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

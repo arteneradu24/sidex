@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <title><%= page_title(content_for(:title)) %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="<%= meta_description %>">
+    <% if current_site.meta_keywords.present? %>
+      <meta name="keywords" content="<%= current_site.meta_keywords %>">
+    <% end %>
+    <% if current_site.og_title.present? %>
+      <meta property="og:title" content="<%= current_site.og_title %>">
+    <% end %>
+    <% if current_site.og_description.present? %>
+      <meta property="og:description" content="<%= current_site.og_description %>">
+    <% end %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= theme_style_tag(current_site) %>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <%= render "shared/navbar" %>
+    <%= render "shared/flash" %>
+    <main class="flex-1">
+      <%= yield %>
+    </main>
+    <%= render "shared/footer" %>
+  </body>
+</html>

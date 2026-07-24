@@ -1,0 +1,91 @@
+<% content_for :page_title, "General Settings" %>
+<% content_for :page_subtitle, "Company information and navigation" %>
+
+<div class="max-w-3xl">
+  <%= render "shared/form_errors", object: @site_setting %>
+  <%= form_with model: @site_setting, url: controlpanel_general_settings_path, method: :patch, class: "space-y-8" do |f| %>
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Company</h3>
+      <div>
+        <%= f.label :company_name, class: "cp-label" %>
+        <%= f.text_field :company_name, class: "cp-input" %>
+      </div>
+      <div>
+        <%= f.label :company_tagline, class: "cp-label" %>
+        <%= f.text_field :company_tagline, class: "cp-input" %>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <%= f.label :hero_title, class: "cp-label" %>
+          <%= f.text_field :hero_title, class: "cp-input" %>
+        </div>
+        <div>
+          <%= f.label :hero_button_text, class: "cp-label" %>
+          <%= f.text_field :hero_button_text, class: "cp-input" %>
+        </div>
+      </div>
+      <div>
+        <%= f.label :hero_subtitle, class: "cp-label" %>
+        <%= f.text_area :hero_subtitle, rows: 3, class: "cp-input" %>
+      </div>
+      <div>
+        <%= f.label :hero_button_url, class: "cp-label" %>
+        <%= f.text_field :hero_button_url, class: "cp-input" %>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <%= f.label :hero_image, "Hero Image", class: "cp-label" %>
+          <%= f.file_field :hero_image, class: "cp-input" %>
+          <% if @site_setting.hero_image.attached? %>
+            <div class="mt-2"><%= image_tag @site_setting.hero_image, class: "h-24 rounded-lg object-cover" %></div>
+          <% end %>
+        </div>
+        <div>
+          <%= f.label :logo, class: "cp-label" %>
+          <%= f.file_field :logo, class: "cp-input" %>
+          <% if @site_setting.logo.attached? %>
+            <div class="mt-2"><%= image_tag @site_setting.logo, class: "h-12 rounded" %></div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Navigation Labels</h3>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <% %i[home_label about_label services_label blog_label contact_label].each do |field| %>
+          <div>
+            <%= f.label field, class: "cp-label" %>
+            <%= f.text_field field, class: "cp-input" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Page Visibility</h3>
+      <div class="grid grid-cols-2 gap-4">
+        <% %i[show_about show_services show_blog show_contact].each do |field| %>
+          <label class="flex items-center gap-2">
+            <%= f.check_box field, class: "rounded border-gray-300" %>
+            <span class="text-sm text-gray-700"><%= field.to_s.sub("show_", "").humanize %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Page Content</h3>
+      <div>
+        <%= f.label :about_content, "About Page", class: "cp-label" %>
+        <%= f.text_area :about_content, rows: 6, class: "cp-input" %>
+      </div>
+      <div>
+        <%= f.label :services_content, "Services Page", class: "cp-label" %>
+        <%= f.text_area :services_content, rows: 6, class: "cp-input" %>
+      </div>
+    </div>
+
+    <%= f.submit "Save Changes", class: "btn-primary cursor-pointer" %>
+  <% end %>
+</div>

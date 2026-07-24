@@ -1,0 +1,31 @@
+<% content_for :page_title, "Contact Messages" %>
+<% content_for :page_subtitle, "#{@new_count} new messages" %>
+
+<div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">From</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Subject</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <% @messages.each do |message| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4">
+            <%= link_to message.name, controlpanel_contact_message_path(message), class: "font-medium text-gray-900 hover:text-blue-600" %>
+            <div class="text-xs text-gray-500"><%= message.email %></div>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-600"><%= message.subject.presence || message.message.truncate(60) %></td>
+          <td class="px-6 py-4 text-sm text-gray-500"><%= l(message.created_at, format: :short) %></td>
+          <td class="px-6 py-4"><%= status_badge(message.status) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @messages.empty? %>
+    <div class="p-8 text-center text-gray-500">No messages yet.</div>
+  <% end %>
+</div>

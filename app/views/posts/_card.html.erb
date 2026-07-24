@@ -1,0 +1,22 @@
+<article class="card group hover:shadow-lg transition-shadow">
+  <%= link_to post_path(post), class: "block" do %>
+    <div class="aspect-video overflow-hidden">
+      <% cover = cover_image_for(post) %>
+      <% if cover.is_a?(String) %>
+        <img src="<%= cover %>" alt="<%= post.title %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+      <% else %>
+        <%= image_tag cover, alt: post.title, class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" %>
+      <% end %>
+    </div>
+    <div class="p-6">
+      <% if post.published_at.present? %>
+        <time class="text-sm text-gray-500"><%= l(post.published_at.to_date, format: :long) %></time>
+      <% end %>
+      <h3 class="text-xl font-bold mt-2 mb-3 group-hover:text-primary transition-colors"><%= post.title %></h3>
+      <% if post.excerpt.present? %>
+        <p class="text-gray-600 text-sm line-clamp-3"><%= post.excerpt %></p>
+      <% end %>
+      <span class="inline-block mt-4 text-sm font-semibold text-primary">Weiterlesen &rarr;</span>
+    </div>
+  <% end %>
+</article>

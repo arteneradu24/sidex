@@ -1,0 +1,59 @@
+<% content_for :page_title, "Contact Settings" %>
+<% content_for :page_subtitle, "Contact information and social links" %>
+
+<div class="max-w-3xl">
+  <%= render "shared/form_errors", object: @site_setting %>
+  <%= form_with model: @site_setting, url: controlpanel_contact_settings_path, method: :patch, class: "space-y-8" do |f| %>
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Contact Details</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <%= f.label :email, class: "cp-label" %>
+          <%= f.email_field :email, class: "cp-input" %>
+        </div>
+        <div>
+          <%= f.label :phone, class: "cp-label" %>
+          <%= f.text_field :phone, class: "cp-input" %>
+        </div>
+        <div class="md:col-span-2">
+          <%= f.label :website, class: "cp-label" %>
+          <%= f.url_field :website, class: "cp-input" %>
+        </div>
+        <div class="md:col-span-2">
+          <%= f.label :street, class: "cp-label" %>
+          <%= f.text_field :street, class: "cp-input" %>
+        </div>
+        <div>
+          <%= f.label :postal_code, class: "cp-label" %>
+          <%= f.text_field :postal_code, class: "cp-input" %>
+        </div>
+        <div>
+          <%= f.label :city, class: "cp-label" %>
+          <%= f.text_field :city, class: "cp-input" %>
+        </div>
+        <div>
+          <%= f.label :country, class: "cp-label" %>
+          <%= f.text_field :country, class: "cp-input" %>
+        </div>
+        <div>
+          <%= f.label :google_maps_url, "Google Maps URL", class: "cp-label" %>
+          <%= f.url_field :google_maps_url, class: "cp-input" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Social Media</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% %i[facebook_url instagram_url linkedin_url youtube_url].each do |field| %>
+          <div>
+            <%= f.label field, field.to_s.sub("_url", "").capitalize, class: "cp-label" %>
+            <%= f.url_field field, class: "cp-input" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%= f.submit "Save Contact Settings", class: "btn-primary cursor-pointer" %>
+  <% end %>
+</div>
