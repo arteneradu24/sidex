@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_24_090004) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_29_123000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -75,6 +75,30 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_24_090004) do
     t.index ["published"], name: "index_posts_on_published"
     t.index ["published_at"], name: "index_posts_on_published_at"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
+  end
+
+  create_table "site_pages", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "cta_button_text"
+    t.string "cta_button_url"
+    t.text "cta_subtitle"
+    t.string "cta_title"
+    t.string "hero_button_text"
+    t.string "hero_button_url"
+    t.text "hero_subtitle"
+    t.string "hero_title"
+    t.string "label", null: false
+    t.text "main_subtitle"
+    t.string "main_title"
+    t.integer "position", default: 0, null: false
+    t.boolean "published", default: true, null: false
+    t.boolean "show_cta", default: true, null: false
+    t.boolean "show_in_nav", default: true, null: false
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.index ["position"], name: "index_site_pages_on_position"
+    t.index ["published"], name: "index_site_pages_on_published"
+    t.index ["slug"], name: "index_site_pages_on_slug", unique: true
   end
 
   create_table "site_settings", force: :cascade do |t|

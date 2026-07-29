@@ -147,4 +147,28 @@ messages_data.each do |data|
   puts "  Message: #{data[:name]}"
 end
 
+# Custom site page example
+careers = SitePage.find_or_initialize_by(slug: "karriere")
+careers.assign_attributes(
+  label: "Karriere",
+  hero_title: "Werden Sie Teil unseres Teams",
+  hero_subtitle: "Entdecken Sie spannende Karrieremöglichkeiten bei Example GmbH und gestalten Sie die digitale Zukunft mit.",
+  hero_button_text: "Offene Stellen",
+  hero_button_url: "/contact",
+  main_title: "Arbeiten bei Example GmbH",
+  main_subtitle: "Wir bieten ein modernes Arbeitsumfeld, flexible Arbeitszeiten und vielfältige Entwicklungsmöglichkeiten.",
+  cta_title: "Bereit für den nächsten Schritt?",
+  cta_subtitle: "Senden Sie uns Ihre Bewerbung – wir freuen uns auf Sie.",
+  cta_button_text: "Kontakt aufnehmen",
+  cta_button_url: "/contact",
+  show_cta: true,
+  position: 1,
+  published: true,
+  show_in_nav: true
+)
+careers.save!
+careers.content = "<p>Bei Example GmbH suchen wir talentierte Menschen, die mit Leidenschaft an innovativen Projekten arbeiten.</p><p>Wir bieten ein modernes Arbeitsumfeld, flexible Arbeitszeiten und vielfältige Entwicklungsmöglichkeiten in Berlin und remote.</p>" unless careers.content.body.present?
+attach_remote_image.call(careers, :hero_image, "https://picsum.photos/seed/karriere/1600/900", "karriere.jpg")
+puts "  Site page: #{careers.label}"
+
 puts "Seeding complete!"

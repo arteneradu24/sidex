@@ -5,6 +5,7 @@ module ControlpanelHelper
     [
       { label: "Dashboard", path: controlpanel_root_path, icon: "dashboard" },
       { label: "General", path: edit_controlpanel_general_settings_path, icon: "settings" },
+      { label: "Pages", path: controlpanel_site_pages_path, icon: "pages" },
       { label: "Appearance", path: edit_controlpanel_appearance_settings_path, icon: "palette" },
       { label: "Contact", path: edit_controlpanel_contact_settings_path, icon: "contact" },
       { label: "Blog", path: controlpanel_posts_path, icon: "blog" },

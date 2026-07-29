@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get "contact", to: "pages#contact"
   resources :contact_messages, only: :create
   resources :posts, only: %i[index show], param: :id
+  get "pages/:slug", to: "site_pages#show", as: :site_page
 
   namespace :controlpanel do
     root to: "dashboard#index"
@@ -16,6 +17,12 @@ Rails.application.routes.draw do
     resource :appearance_settings, only: %i[edit update], path: "appearance"
     resource :contact_settings, only: %i[edit update], path: "contact"
     resource :seo_settings, only: %i[edit update], path: "seo"
+    resources :site_pages do
+      member do
+        patch :publish
+        patch :unpublish
+      end
+    end
     resources :posts do
       member do
         patch :publish

@@ -1,0 +1,54 @@
+<% content_for :page_title, "Pages" %>
+<% content_for :page_subtitle, "Custom navigation tabs and content pages" %>
+
+<div class="flex justify-between items-center mb-6">
+  <%= link_to "New Page", new_controlpanel_site_page_path, class: "btn-primary btn-sm" %>
+</div>
+
+<div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Label</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">URL</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Position</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <% @site_pages.each do |page| %>
+        <tr>
+          <td class="px-6 py-4">
+            <%= link_to page.label, edit_controlpanel_site_page_path(page), class: "font-medium text-gray-900 hover:text-blue-600" %>
+            <% unless page.show_in_nav? %>
+              <span class="text-xs text-gray-400">(hidden from nav)</span>
+            <% end %>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-500">/pages/<%= page.slug %></td>
+          <td class="px-6 py-4 text-sm text-gray-500"><%= page.position %></td>
+          <td class="px-6 py-4"><%= publish_badge(page.published) %></td>
+          <td class="px-6 py-4 text-right space-x-2">
+            <%= link_to "Edit", edit_controlpanel_site_page_path(page), class: "text-xs font-semibold text-blue-600 hover:underline" %>
+            <%= link_to "View", site_page_path(page), target: "_blank", class: "text-xs text-blue-600 hover:underline" %>
+            <% if page.published? %>
+              <%= button_to "Unpublish", unpublish_controlpanel_site_page_path(page), method: :patch, class: "text-xs text-yellow-600 hover:underline cursor-pointer inline" %>
+            <% else %>
+              <%= button_to "Publish", publish_controlpanel_site_page_path(page), method: :patch, class: "text-xs text-green-600 hover:underline cursor-pointer inline" %>
+            <% end %>
+            <%= button_to "Delete", controlpanel_site_page_path(page), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "text-xs text-red-600 hover:underline cursor-pointer inline" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @site_pages.empty? %>
+    <div class="p-8 text-center text-gray-500">
+      No custom pages yet. Create a page to add a new tab to the website navigation.
+    </div>
+  <% end %>
+</div>
+
+<p class="mt-4 text-sm text-gray-500">
+  Custom pages appear in the navigation between Services and Blog. Use <strong>Position</strong> to control order (lower numbers appear first).
+</p>

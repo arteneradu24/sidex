@@ -1,0 +1,48 @@
+<% content_for :title, @site_page.label %>
+
+<%= render "shared/page_hero", page: @site_page %>
+
+<section class="py-20 bg-gray-50">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <% if @site_page.main_title.present? || @site_page.main_subtitle.present? %>
+      <div class="text-center mb-12">
+        <% if @site_page.main_title.present? %>
+          <h2 class="section-title"><%= @site_page.main_title %></h2>
+        <% end %>
+        <% if @site_page.main_subtitle.present? %>
+          <p class="section-subtitle mx-auto"><%= @site_page.main_subtitle %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @site_page.content.present? %>
+      <div class="card p-8 md:p-12">
+        <div class="prose-themed">
+          <%= @site_page.content %>
+        </div>
+      </div>
+    <% elsif @site_page.main_title.blank? && @site_page.main_subtitle.blank? %>
+      <div class="card p-8 md:p-12 text-center text-gray-500">
+        <p>Conținutul paginii va apărea aici.</p>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<% if @site_page.show_cta? %>
+  <section class="py-20 bg-primary text-white" style="background-color: var(--primary-color);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">
+        <%= @site_page.cta_title.presence || "Bereit für den nächsten Schritt?" %>
+      </h2>
+      <p class="text-lg opacity-90 mb-8">
+        <%= @site_page.cta_subtitle.presence || "Kontaktieren Sie uns noch heute für ein unverbindliches Beratungsgespräch." %>
+      </p>
+      <% button_text = @site_page.cta_button_text.presence || current_site.contact_label %>
+      <% button_url = @site_page.cta_button_url.presence || contact_path %>
+      <% if button_text.present? && button_url.present? %>
+        <%= link_to button_text, button_url, class: "btn bg-white hover:bg-gray-100", style: "color: var(--primary-color);" %>
+      <% end %>
+    </div>
+  </section>
+<% end %>

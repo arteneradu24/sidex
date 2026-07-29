@@ -1,0 +1,116 @@
+<% site_page = local_assigns[:site_page] || @site_page %>
+
+<div class="max-w-3xl">
+  <%= render "shared/form_errors", object: site_page %>
+  <%= form_with model: site_page, url: site_page.persisted? ? controlpanel_site_page_path(site_page) : controlpanel_site_pages_path, class: "space-y-6" do |f| %>
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Navigation Tab</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <%= f.label :label, "Tab Label", class: "cp-label" %>
+          <%= f.text_field :label, class: "cp-input", placeholder: "e.g. Karriere" %>
+        </div>
+        <div>
+          <%= f.label :slug, class: "cp-label" %>
+          <%= f.text_field :slug, class: "cp-input", placeholder: "auto-generated from label" %>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <%= f.label :position, class: "cp-label" %>
+          <%= f.number_field :position, min: 0, class: "cp-input" %>
+        </div>
+        <div class="flex flex-col justify-end gap-2">
+          <label class="flex items-center gap-2">
+            <%= f.check_box :show_in_nav, class: "rounded border-gray-300" %>
+            <span class="text-sm text-gray-700">Show in navigation</span>
+          </label>
+          <label class="flex items-center gap-2">
+            <%= f.check_box :published, class: "rounded border-gray-300" %>
+            <span class="text-sm text-gray-700">Published</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Hero Section (top banner)</h3>
+      <div>
+        <%= f.label :hero_title, class: "cp-label" %>
+        <%= f.text_field :hero_title, class: "cp-input" %>
+      </div>
+      <div>
+        <%= f.label :hero_subtitle, class: "cp-label" %>
+        <%= f.text_area :hero_subtitle, rows: 3, class: "cp-input" %>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <%= f.label :hero_button_text, class: "cp-label" %>
+          <%= f.text_field :hero_button_text, class: "cp-input" %>
+        </div>
+        <div>
+          <%= f.label :hero_button_url, class: "cp-label" %>
+          <%= f.text_field :hero_button_url, class: "cp-input", placeholder: "/contact" %>
+        </div>
+      </div>
+      <div>
+        <%= f.label :hero_image, class: "cp-label" %>
+        <%= f.file_field :hero_image, class: "cp-input" %>
+        <% if site_page.hero_image.attached? %>
+          <div class="mt-2"><%= image_tag site_page.hero_image, class: "h-24 rounded-lg object-cover" %></div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Main Section (div principal)</h3>
+      <p class="text-sm text-gray-500">The central content area of the page, similar to the home page body.</p>
+      <div>
+        <%= f.label :main_title, "Section Title", class: "cp-label" %>
+        <%= f.text_field :main_title, class: "cp-input", placeholder: "e.g. Unsere Stellenangebote" %>
+      </div>
+      <div>
+        <%= f.label :main_subtitle, "Section Subtitle", class: "cp-label" %>
+        <%= f.text_area :main_subtitle, rows: 2, class: "cp-input" %>
+      </div>
+      <div>
+        <%= f.label :content, "Main Content", class: "cp-label" %>
+        <%= f.rich_text_area :content, class: "cp-input" %>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <h3 class="font-semibold text-gray-900">Call to Action (bottom banner)</h3>
+      <label class="flex items-center gap-2 mb-2">
+        <%= f.check_box :show_cta, class: "rounded border-gray-300" %>
+        <span class="text-sm text-gray-700">Show bottom CTA section</span>
+      </label>
+      <div>
+        <%= f.label :cta_title, class: "cp-label" %>
+        <%= f.text_field :cta_title, class: "cp-input", placeholder: "Bereit für den nächsten Schritt?" %>
+      </div>
+      <div>
+        <%= f.label :cta_subtitle, class: "cp-label" %>
+        <%= f.text_area :cta_subtitle, rows: 2, class: "cp-input" %>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <%= f.label :cta_button_text, class: "cp-label" %>
+          <%= f.text_field :cta_button_text, class: "cp-input" %>
+        </div>
+        <div>
+          <%= f.label :cta_button_url, class: "cp-label" %>
+          <%= f.text_field :cta_button_url, class: "cp-input", placeholder: "/contact" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex gap-3">
+      <%= f.submit "Save Page", class: "btn-primary cursor-pointer" %>
+      <%= link_to "Cancel", controlpanel_site_pages_path, class: "btn-secondary btn-sm" %>
+      <% if site_page.persisted? %>
+        <%= link_to "Preview", site_page_path(site_page), target: "_blank", class: "btn-secondary btn-sm" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
